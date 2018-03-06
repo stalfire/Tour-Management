@@ -1,0 +1,56 @@
+<br><%= @record.purpose%>
+<br><%= @record.description%>
+<br><%= @record.start_date%>
+<br><%= @record.end_date%>
+<br><%= @record.mode%>
+<br><%= @record.cost%>
+<br><%= @record.home_city_price%>
+<br><%= @record.destination_city_price%>
+<br><%= @record.hotel_price%>
+<br><%= @record.local_transport%>
+<br><%= @record.user_id%>
+<br><%= @record.manager_id%>
+<%if current_user.role == "reg_user"%>
+	<%if @record.status == "draft" %>
+		<br><p><%= @record.status%></p>
+		<%= form_for @record do |form|%>
+			<%= form.number_field :manager_id%>
+			<%= form.hidden_field :status, :value => "Summited" %>
+			<%= form.submit "Submit to Manager"%>
+		<%end%>
+		<br><%= link_to "Edit", edit_record_path %>
+		<br><%= link_to "Delete", record_path, method: :delete, data: {confirm: "Are you sure ?"} %>
+	
+	<%else%>
+		<br><p><%= @record.status%></p>
+	<%end%>
+<%elsif current_user.role == "manager" %>
+	<%if @record.status == "Summited"%>
+		<br><p>Summited by <%= @user%></p>
+		<%= form_for @record do |form|%>
+			<%= form.select(:status, ["Approved", "Rejected", "Request for more information"], {include_blank: "Select Action"}) %>
+			<%= form.submit "Action"%>
+		<%end%>
+	<%elsif @record.status == "Approved" && @record.to_finance == 0%>
+		<br><p>Approved</p>
+		<%= form_for @record do |form|%>
+			<%= form.hidden_field :to_finance, :value => 1 %>
+			<%= form.submit "Summit to Finance"%>
+		<%end%>
+	<%elsif @record.status == "Approved" && @record.to_finance == 1%>
+		<br><p>Summited to finance</p>
+	<%else%>
+		<br><p><%= @record.status%></p>	
+	<%end%>
+<%elsif current_user.role == "finance" %>
+	<%if @record.status == "Approved" && @record.to_finance == 1%>
+		<br><p>Approved by <%= @manager%></p>
+		<%= form_for @record do |form|%>
+			<%= form.select(:status, ["Approved", "Rejected", "Request for more information"], {include_blank: "Select Action"}) %>
+			<%= form.hidden_field :to_finance, :value => 2 %>
+			<%= form.submit "Action"%>
+		<%end%>
+	<%elsif @record.to_finance == 2%>
+		<br><p><%= @record.status%></p>	
+	<%end%>	
+<%end%>

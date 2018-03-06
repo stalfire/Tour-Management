@@ -1,0 +1,16 @@
+<%= form_for @record do |form| %>
+		<br><%= form.text_field :purpose, placeholder:"Purpose"%>
+		<br><%= form.text_field :description, placeholder:"Description"%>
+		<br><%= form.text_field :start_date, placeholder:"Start Date of the travel"%>
+		<br><%= form.text_field :end_date, placeholder:"End Date of the travel"%>
+		<br><%= form.text_field :mode, placeholder:"Mode of Travel"%>
+		<br><%= form.number_field :cost, placeholder:"Ticket Cost"%>
+		<br><%= form.number_field :home_city_price, placeholder:"Cost of Airport Cab at Home City"%>
+		<br><%= form.number_field :destination_city_price, placeholder:"Cost of Airport Cab at Destination City"%>
+		<br><%= form.number_field :hotel_price, placeholder:"Hotel Cost"%>
+		<br><%= form.text_field :local_transport, placeholder:"Local Transport at tour location"%>
+		<% if current_user.reg_user? %>
+			<%= form.hidden_field :user_id, :value => current_user.id %>
+		<%end%>
+		<br><%= form.submit%>
+<%end%>	

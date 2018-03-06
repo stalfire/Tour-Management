@@ -1,0 +1,28 @@
+<body id="user_show_main">
+	<div class="frame">
+	  <div class="center">
+	    
+			<div class="profile">
+				<div class="name"><%= @user.name %></div>
+				<div class="email"><%= @user.email %></div>
+				<%if @user.role != "reg_user"%>
+					<p><%= @user.role.upcase%></p>
+				<%end%>
+				<div class="actions">
+					<%if current_user != nil %>
+						<%if @user.id == current_user.id%>
+							<p class="btn"><%= link_to "Edit Profile", edit_user_path(current_user.id),{id:"edit_profile_button"} %></p>
+						<%elsif @user.id != current_user.id%>
+						<%end%>
+					<%else%>
+						
+					<%end%>
+				</div>
+			</div>
+			
+			
+	  </div>
+	</div>
+</body>
+
+
