@@ -34,7 +34,9 @@ class RecordsController < ApplicationController
 		if current_user != nil
 			@record = Record.find(params[:id])
 			@user = User.find(@record.user_id).name
-			@manager = User.find(@record.manager_id).name
+			if @record.manager_id != nil
+				@manager = User.find(@record.manager_id).name
+			end
 		else
 			redirect_to root_path
 		end	
@@ -46,7 +48,7 @@ class RecordsController < ApplicationController
 			elsif current_user.role == "manager"
 				@records = Record.where(manager_id: current_user.id)
 			elsif current_user.role == "finance"
-				@records = Record.where(to_finance: 1 && 2) 
+				@records = Record.where(to_finance: 1) + Record.where(to_finance: 2)
 			end
 		else
 			redirect_to root_path

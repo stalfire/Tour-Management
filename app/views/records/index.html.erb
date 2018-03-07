@@ -1,3 +1,32 @@
-<% @records.each do |f| %>
-	<%= link_to f.purpose, f %>
-<%end%>
+<body class="record-body">
+	<table class="greenTable">
+		<thead>
+			<tr>
+				<th>Tour Purpose</th>
+				<th>Tour Starting Date</th>
+				<th>Tour Ended date</th>
+				<th>Tour Hotel Cost</th>
+				<th>Status</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% @records.each do |f| %>
+			<tr>
+				<td><%= link_to f.purpose, f ,class: "text_edit" %></td>
+				<td><%= f.start_date %></td>
+				<td><%= f.end_date %></td>
+				<td><%= f.cost %></td>
+				<td><%= f.status %> 
+					<%if f.status == "Summited" %>
+						by <%= f.user.name%>
+					<%elsif f.status == "Approved" && f.manager_id != nil && f.to_finance == 1 %>
+						by manager
+					<%elsif f.status == "Approved" && f.manager_id != nil && f.to_finance == 2 %>
+						by finance
+					<%end%>	
+				</td>
+			</tr>
+			<%end%>
+		</tbody>
+	</table>
+</body>

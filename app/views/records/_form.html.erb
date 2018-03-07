@@ -1,16 +1,51 @@
-<%= form_for @record do |form| %>
-		<br><%= form.text_field :purpose, placeholder:"Purpose"%>
-		<br><%= form.text_field :description, placeholder:"Description"%>
-		<br><%= form.text_field :start_date, placeholder:"Start Date of the travel"%>
-		<br><%= form.text_field :end_date, placeholder:"End Date of the travel"%>
-		<br><%= form.text_field :mode, placeholder:"Mode of Travel"%>
-		<br><%= form.number_field :cost, placeholder:"Ticket Cost"%>
-		<br><%= form.number_field :home_city_price, placeholder:"Cost of Airport Cab at Home City"%>
-		<br><%= form.number_field :destination_city_price, placeholder:"Cost of Airport Cab at Destination City"%>
-		<br><%= form.number_field :hotel_price, placeholder:"Hotel Cost"%>
-		<br><%= form.text_field :local_transport, placeholder:"Local Transport at tour location"%>
-		<% if current_user.reg_user? %>
-			<%= form.hidden_field :user_id, :value => current_user.id %>
-		<%end%>
-		<br><%= form.submit%>
-<%end%>	
+<table class="darkTable">
+	<%= form_for @record do |form| %>
+		<tr>
+			<td>Tour Purpose</td>
+			<td><%= form.text_field :purpose, placeholder:"Purpose"%></td>
+		</tr>
+		<tr>
+			<td>Tour Description</td>
+			<td><%= form.text_field :description, placeholder:"Description"%></td>
+		</tr>
+		<tr>
+			<td>Tour Starting Date</td>
+			<td><%= form.text_field :start_date, placeholder:"Start Date of the travel"%></td>
+		</tr>
+		<tr>
+			<td>Tour Ended Date</td>
+			<td><%= form.text_field :end_date, placeholder:"End Date of the travel"%></td>
+		</tr>
+		<tr>
+			<td>Mode of Travel</td>
+			<td><%= form.text_field :mode, placeholder:"Mode of Travel"%></td>
+		</tr>
+		<tr>
+			<td>Tour Ticket Cost</td>
+			<td><%= form.number_field :cost, placeholder:"Ticket Cost"%></td>
+		</tr>
+		<tr>
+			<td>Cost of Airport Cab at home city</td>
+			<td><%= form.number_field :home_city_price, placeholder:"Cost of Airport Cab at Home City"%></td>
+		</tr>
+		<tr>
+			<td>Cost of Airport Cab at destination city</td>
+			<td><%= form.number_field :destination_city_price, placeholder:"Cost of Airport Cab at Destination City"%></td>
+		</tr>
+		<tr>
+			<td>Tour Hotel Cost</td>
+			<td><%= form.number_field :hotel_price, placeholder:"Hotel Cost"%></td>
+		</tr>
+		<tr>
+			<td>Local Conveyance</td>
+			<td><%= form.text_field :local_transport, placeholder:"Local Transport at tour location"%></td>
+		</tr>
+			<% if current_user.reg_user? %>
+				<%= form.hidden_field :user_id, :value => current_user.id %>
+			<%end%>
+		<tr>
+			<td></td>
+			<td><%= form.submit%></td>
+		</tr>
+	<%end%>	
+</table>
