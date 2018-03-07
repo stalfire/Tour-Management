@@ -6,10 +6,10 @@ class CreateRecords < ActiveRecord::Migration[5.0]
     	t.string :start_date
     	t.string :end_date
     	t.string :mode
-    	t.float :cost
-    	t.float :home_city_price
-    	t.float :destination_city_price
-    	t.float :hotel_price
+    	t.integer :cost
+    	t.integer :home_city_price
+    	t.integer :destination_city_price
+    	t.integer :hotel_price
     	t.string :local_transport
 
     	t.references :user, foreign_key: true

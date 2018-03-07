@@ -10,9 +10,23 @@
 				<%end%>
 				<div class="actions">
 					<%if current_user != nil %>
-						<%if @user.id == current_user.id%>
+						<%if @user.id == current_user.id && current_user.name != "admin"%>
 							<p class="btn"><%= link_to "Edit Profile", edit_user_path(current_user.id),{id:"edit_profile_button"} %></p>
-						<%elsif @user.id != current_user.id%>
+								<p>For Testing different role</p>
+								<%= form_for @user do |form|%>
+									<%= form.hidden_field :role, :value => "reg_user" %>
+									<%= form.submit "Become Regular User"%>
+								<%end%>
+								<%= form_for @user do |form|%>
+									<%= form.hidden_field :role, :value => "manager" %>
+									<%= form.submit "Become Manager"%>
+								<%end%>
+								<%= form_for @user do |form|%>
+									<%= form.hidden_field :role, :value => "finance"%>
+									<%= form.submit "Become Finance"%>
+								<%end%>
+						<%elsif current_user.name == "admin"%>
+							<p class="btn"><%= link_to "Edit Profile", edit_user_path(current_user.id),{id:"edit_profile_button"} %></p>
 						<%end%>
 					<%else%>
 						

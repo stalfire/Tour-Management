@@ -33,9 +33,9 @@ class UsersController < ApplicationController
 		
 	end
 private
-
+	# Remove :role if is not for testing different role
 	def user_params
-		params.require(:user).permit(:avatar,:name, :email, :password)
+		params.require(:user).permit(:name, :email, :password,:role)
 	end
 
 end

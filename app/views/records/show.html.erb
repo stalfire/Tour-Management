@@ -51,59 +51,62 @@
 	<tr>
 		<td> </td>
 	</tr>
-	
-<%if current_user.role == "reg_user"%>
-	<%if @record.status == "draft" %>
-		<tr><td>Record Status</td><td><%= @record.status%></td></tr>
-		<tr>
-			<%= form_for @record do |form|%>
-				<td><%= form.select :manager_id, User.where(role:1).collect { |p| [ p.name, p.id ] }, include_blank: "Select Manager"%></td>
-				<%= form.hidden_field :status, :value => "Summited" %>
-				<td><%= form.submit "Submit to Manager"%></td>
-			<%end%>
-		</tr>
-		<tr>	
-			<td style="text-align: center;"><%= link_to "Edit", edit_record_path %></td>
-			<td style="text-align: center;"><%= link_to "Delete", record_path, method: :delete, data: {confirm: "Are you sure ?"} %></td>
-		</tr>
-	<%else%>
-		<tr><td>Record Status</td><td><%= @record.status%></td></tr>
+<%if current_user.name != "admin"%>	
+	<%if current_user.role == "reg_user"%>
+		<%if @record.status == "draft" %>
+			<tr><td>Record Status</td><td><%= @record.status%></td></tr>
+			<tr>
+				<%= form_for @record do |form|%>
+					<td><%= form.select :manager_id, User.where(role:1).collect { |p| [ p.name, p.id ] }, include_blank: "Select Manager"%></td>
+					<%= form.hidden_field :status, :value => "Summited" %>
+					<td><%= form.submit "Submit to Manager"%></td>
+				<%end%>
+			</tr>
+			<tr>	
+				<td style="text-align: center;"><%= link_to "Edit", edit_record_path %></td>
+				<td style="text-align: center;"><%= link_to "Delete", record_path, method: :delete, data: {confirm: "Are you sure ?"} %></td>
+			</tr>
+		<%else%>
+			<tr><td>Record Status</td><td><%= @record.status%></td></tr>
+		<%end%>
+	<%elsif current_user.role == "manager" %>
+		<%if @record.status == "Summited"%>
+			<tr><td>Record Status</td><td>Summited by <%= @user%></td></tr>
+			<tr>
+				<%= form_for @record do |form|%>
+					<td><%= form.select(:status, ["Approved", "Rejected", "Request for more information"], {include_blank: "Select Action"}) %></td>
+					<td><%= form.submit "Submit"%></td>
+				<%end%>
+			</tr>
+		<%elsif @record.status == "Approved" && @record.to_finance == 0%>
+			<tr><td>Record Status</td><td>Approved</td>
+			<tr>
+				<%= form_for @record do |form|%>
+					<%= form.hidden_field :to_finance, :value => 1 %>
+					<td style="text-align: center;"><%= form.submit "Summit to Finance"%></td>
+				<%end%>
+			</tr>
+		<%elsif @record.status == "Approved" && @record.to_finance == 1%>
+			<tr><td>Record Status</td><td>Summited to finance</td>
+		<%else%>
+			<tr><td>Record Status</td><td><%= @record.status%></td>	</tr>
+		<%end%>
+	<%elsif current_user.role == "finance" %>
+		<%if @record.status == "Approved" && @record.to_finance == 1%>
+			<tr><td>Record Status</td><td>Approved by <%= @manager%></td>
+			<tr>
+				<%= form_for @record do |form|%>
+					<td><%= form.select(:status, ["Approved", "Rejected", "Request for more information"], {include_blank: "Select Action"}) %></td>
+					<%= form.hidden_field :to_finance, :value => 2 %>
+					<td><%= form.submit "Submit"%></td>
+				<%end%>
+			</tr>	
+		<%elsif @record.to_finance == 2%>
+			<tr><td>Record Status</td><td><%= @record.status%></td>	</tr>
+		<%end%>	
 	<%end%>
-<%elsif current_user.role == "manager" %>
-	<%if @record.status == "Summited"%>
-		<tr><td>Record Status</td><td>Summited by <%= @user%></td></tr>
-		<tr>
-			<%= form_for @record do |form|%>
-				<td><%= form.select(:status, ["Approved", "Rejected", "Request for more information"], {include_blank: "Select Action"}) %></td>
-				<td><%= form.submit "Submit"%></td>
-			<%end%>
-		</tr>
-	<%elsif @record.status == "Approved" && @record.to_finance == 0%>
-		<tr><td>Record Status</td><td>Approved</td>
-		<tr>
-			<%= form_for @record do |form|%>
-				<%= form.hidden_field :to_finance, :value => 1 %>
-				<td style="text-align: center;"><%= form.submit "Summit to Finance"%></td>
-			<%end%>
-		</tr>
-	<%elsif @record.status == "Approved" && @record.to_finance == 1%>
-		<tr><td>Record Status</td><td>Summited to finance</td>
-	<%else%>
-		<tr><td>Record Status</td><td><%= @record.status%></td>	</tr>
-	<%end%>
-<%elsif current_user.role == "finance" %>
-	<%if @record.status == "Approved" && @record.to_finance == 1%>
-		<tr><td>Record Status</td><td>Approved by <%= @manager%></td>
-		<tr>
-			<%= form_for @record do |form|%>
-				<td><%= form.select(:status, ["Approved", "Rejected", "Request for more information"], {include_blank: "Select Action"}) %></td>
-				<%= form.hidden_field :to_finance, :value => 2 %>
-				<td><%= form.submit "Submit"%></td>
-			<%end%>
-		</tr>	
-	<%elsif @record.to_finance == 2%>
-		<tr><td>Record Status</td><td><%= @record.status%></td>	</tr>
-	<%end%>	
-<%end%>
+<%else%>
+	<tr><td>Record Status</td><td><%= @record.status%></td>	</tr>
+<%end%>	
 </table>
 </body>
