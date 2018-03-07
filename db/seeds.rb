@@ -44,6 +44,10 @@ ActiveRecord::Base.transaction do
 end
 
 # Datebase for test user
-User.create(name: "Manager Test", email: "manager@hotmail.com", password: "manager", role: 1)
+User.create(name: "Manager Test", email: "manager1@hotmail.com", password: "manager", role: 1)
+User.create(name: "Manager Test", email: "manager2@hotmail.com", password: "manager", role: 1)
+User.create(name: "Manager Test", email: "manager3@hotmail.com", password: "manager", role: 1)
+User.create(name: "Manager Test", email: "manager4@hotmail.com", password: "manager", role: 1)
+User.create(name: "Manager Test", email: "manager5@hotmail.com", password: "manager", role: 1)
 User.create(name: "Finance test", email: "finance@hotmail.com", password: "finance", role: 2)
 User.create(name: "admin", email: "admin@hotmail.com", password: "admin", role: 0)

@@ -1,0 +1,33 @@
+<body class="record-body">
+	<table class="greenTable">
+		<thead>
+			<tr>
+				<th>User Name</th>
+				<th>User E-mail</th>
+				<th>Password</th>
+				
+			</tr>
+		</thead>
+		<tbody>
+			<% @list.each do |f| %>
+			<tr>
+				<td><%= link_to f.name, f ,class: "text_edit" %></td>
+				<td><%= f.email %></td>
+				<td>
+					<%if f.name == "Regular Test"%>
+						regular
+					<%elsif f.name == "Manager Test"%>
+						manager
+					<%elsif f.name == "Finance Test"%>
+						finance
+					<%elsif f.name == "admin"%>
+						admin
+					<%else%>
+						test
+					<%end%>
+				</td>
+			</tr>
+			<%end%>
+		</tbody>
+	</table>
+</body>
