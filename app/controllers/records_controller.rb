@@ -34,6 +34,7 @@ class RecordsController < ApplicationController
 		if current_user != nil
 			@record = Record.find(params[:id])
 			if @record.user_id == current_user.id || current_user.name == "admin" || current_user.role == "manager" || current_user.role == "finance"
+				# still need to restrict manager see other record
 				@user = User.find(@record.user_id).name
 				if @record.manager_id != nil
 					@manager = User.find(@record.manager_id).name
